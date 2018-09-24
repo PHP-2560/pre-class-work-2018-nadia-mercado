@@ -1,0 +1,70 @@
+Use dplyr functions to address the following questions:
+```{r}
+install.packages("gapminder")
+library(dplyr)
+library(gapminder)
+gapminder = gapminder
+```
+
+How many unique countries are represented per continent?
+
+```{r}
+#table(gapminder$continent)
+
+gapminder %>%
+  group_by(continent) %>%
+  summarize(total=n_distinct(country))
+```
+Which European nation had the lowest GDP per capita in 1997?
+
+```{r}
+#filter dataset for European countries only and the columns from year 1997 
+  dplyr::filter(gapminder, continent == "Europe", year == 1997) %>%
+#arrange in ascending order to find the EU country w/ lowest GDP per capita 
+  arrange(gdpPercap)%>%
+#select only the "top option" or country with lowest GDP per capita
+  head(n=1)
+```
+**Albania had the lowest GDP per capita in 1997**
+
+According to the data available, what was the average life expectancy across each continent in the 1980s?
+```{r}
+
+```
+
+What 5 countries have the highest total GDP over all years combined?
+
+```{r}
+
+```
+
+What countries and years had life expectancies of at least 80 years? N.b. only output the columns of interest: country, life expectancy and year (in that order).
+```{r}
+
+```
+
+What 10 countries have the strongest correlation (in either direction) between life expectancy and per capita GDP?
+```{r}
+
+```
+
+Which combinations of continent (besides Asia) and year have the highest average population across all countries? N.b. your output should include all results sorted by highest average population. With what you already know, this one may stump you. See this Q&A for how to ungroup before arrangeing. This also behaves differently in more recent versions of dplyr.
+```{r}
+
+```
+
+Which three countries have had the most consistent population estimates (i.e. lowest standard deviation) across the years of available data?
+```{r}
+
+```
+
+Subset gm to only include observations from 1992 and store the results as gm1992. What kind of object is this?
+```{r}
+
+```
+
+Which observations indicate that the population of a country has decreased from the previous year and the life expectancy has increased from the previous year? See the vignette on window functions.
+```{r}
+
+```
+
