@@ -87,9 +87,13 @@ gapminder %>%
 Which combinations of continent (besides Asia) and year have the highest average population across all countries? N.b. your output should include all results sorted by highest average population. With what you already know, this one may stump you. See this Q&A for how to ungroup before arrangeing. This also behaves differently in more recent versions of dplyr.
 ```{r}
 gapminder %>%
+#filter out any rorws associated with Asia
   filter(continent != "Asia") %>%
+#Group by country and year
   group_by(country, year) %>%
+#Find the average population for each country (excluding countries in Asia)
   summarise(mean_pop = mean(pop)) %>%
+#Arrange in descending order to get the highest mean population
   arrange(desc(mean_pop))
   
 
@@ -99,7 +103,9 @@ Which three countries have had the most consistent population estimates (i.e. lo
 ```{r}
 gapminder %>%
   group_by(country) %>%
+#Calculate the standard deviation for the population
   summarise(pop.sd = sd(pop)) %>%
+#
   arrange(pop.sd) %>%
   head(3)
 ```
