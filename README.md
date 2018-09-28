@@ -8,4 +8,4 @@ Before you continue, Edit this document with:
 
 - Preferred Name: Nadia Mercado
 - Brown Name: Nadia Mercado
-- Brown E-mail: nadia_mercado@brown.edu
+- Brown E-mail: nadia_mercado@brown.edu  
