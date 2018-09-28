@@ -69,7 +69,7 @@ for(i in 2:ncol(survey.clean)) {
  survey.clean[,i] <- data.temp
 }
 
-survey.clean
+survey.clean    
 ```
 
 B. Now, again using a loop, add a new column to the dataframe called “invalid.answers” that indicates, for each participant, how many bad answers they gave.
