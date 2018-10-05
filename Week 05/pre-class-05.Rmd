@@ -136,5 +136,31 @@ for(i in 1:ncol(WCGS.new)) {
 ### Question 2: Looping to Calculate
 
 A. Using a loop, calculate the mean weight of the subjects separated by the type of CHD they have.
+```{r}
+yes <- c()
+no <- c()
+x<-0
+y<-0
+
+for(i in 1:3154) {
+  if(wcgs$chd69[i] == "yes"){
+    yes[x] <- wcgs$weight[i]
+    x=x+1
+  }else if(wcgs$chd69[i] == "no"){
+    no[y] <- wcgs$weight[i]
+    y=y+1}
+}
+
+mean(no)
+mean(yes)
+```
+
 B. Now do the same thing, but now don’t use a loop
+```{r}
+(library("dplyr")) 
+
+wcgs %>%
+  group_by(chd69) %>%
+  summarise(mean(weight))
+```
 
