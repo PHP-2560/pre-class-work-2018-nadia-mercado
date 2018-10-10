@@ -138,24 +138,36 @@ for(i in 1:ncol(WCGS.new)) {
 
 A. Using a loop, calculate the mean weight of the subjects separated by the type of CHD they have.
 ```{r}
-yes <- c() #create variables 'yes' and 'no' which are the responses for type of CHD
-no <- c()
+no.CHD <- c() #create variables 'no CHD', 'MI or SD', 'silent MI', or 'angina' which are the responses for type of CHD
+MI.or.SD <- c()
+silent.MI <- c()
+angina <- c()
 x<-0
 y<-0
+z<-0
+a<-0
 
-for(i in 1:3154) { #used actual number of columns in wcgs dataset (ncol(wcgs) returned an error)
-  if(wcgs$chd69[i] == "yes"){ #calculate total sum for weight if CHD is "yes"
-    yes[x] <- wcgs$weight[i]
+for(i in 1:3154) { #used actual number of rows in wcgs dataset (nrow(wcgs) returned an error)
+  if(wcgs$typchd69[i] == "no CHD"){ #calculate total sum for weight if CHD is "no.CHD"
+    no.CHD[x] <- wcgs$weight[i]
     x=x+1
     
-  }else if(wcgs$chd69[i] == "no"){ #calculate total sum for weight if CHD is "no"
-    no[y] <- wcgs$weight[i]
+  }else if(wcgs$typchd69[i] == "MI or SD"){ #calculate total sum for weight if CHD is "MI or SD"
+    MI.or.SD[y] <- wcgs$weight[i]
     y=y+1
-  
+    
+  }else if(wcgs$typchd69[i] == "silent MI"){ 
+    silent.MI[z] <- wcgs$weight[i]
+    z=z+1
+  }else if(wcgs$typchd69[i] == "angina"){ 
+    angina[a] <- wcgs$weight[i]
+    a=a+1
 } 
 } 
-round(mean(no)) #round to get approximation for both (to match table from below)
-round(mean(yes))
+round(mean(no.CHD)) #round to get approximation for both (to match table from below)
+round(mean(MI.or.SD))
+round(mean(silent.MI))
+round(mean(angina))
 ```
 
 B. Now do the same thing, but now don’t use a loop
@@ -163,7 +175,7 @@ B. Now do the same thing, but now don’t use a loop
 (library("dplyr")) 
 
 wcgs %>%
-  group_by(chd69) %>%
+  group_by(typchd69) %>%
   summarise(mean(weight))
 ```
 
