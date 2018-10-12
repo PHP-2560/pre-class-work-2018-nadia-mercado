@@ -1,0 +1,62 @@
+# pre-class
+
+
+Make sure you commit this often with meaningful messages. 
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+1. Read the source code for each of the following three functions, puzzle out what they do, and then brainstorm better names.
+
+```{r}
+f1 <- function(string, prefix) {             #function to check if a given prefix appears in a string of characters
+  substr(string, 1, nchar(prefix)) == prefix
+}
+
+#f1 could also be named check.prefix
+
+f2 <- function(x) {                         #function to eliminate the last value of a vector and return a new vector
+  if (length(x) <= 1) return(NULL)
+  x[-length(x)]
+}
+
+#f2 could also be named eliminate.last
+
+f3 <- function(x, y) {          #function to create a vector Y the same length as vector x (by repetition or otherwise)
+  rep(y, length.out = length(x))
+}
+#f3 could be named sameLength or equalLength
+
+
+string <- c('unsun', 'unsky', 'unclouds')
+prefix<- c('un')
+f1(string, prefix)
+
+x <- c(2,3,4)
+f2(x) 
+
+y<- c(5,6)
+f3(x,y)
+```
+
+2. Compare and contrast rnorm() and MASS::mvrnorm(). How could you make them more consistent?
+
+**rnorm generates a random value from the normal distribution with the syntax rnorm(n, mean, sd) while MASS::mvrnorm() is mvrnorm from the MASS r package which with syntax MASS::mvnorm(n, mu, Sigma) which calculates its samples from the multivariate normal distribution. To be consistent we should be able to use the same name for the function, however, the problem arises when we consider the multivariate case. While the mean and mu would be the same, sd is the not the same as Sigma in the multivariate case. This is why we need both functions for different applications.**  
+
+3. Use `lapply()` and an anonymous function to find the coefficient of variation (the standard deviation divided by the mean) for all columns in the mtcars dataset. 
+```{r}
+library(mtcars) #used mtcars from previous preclass work, nycflights13 returned an error
+lapply(mtcars, function(x) sd(x)/mean(x)) 
+```
+
+4. Use vapply() to:
+    a. Compute the standard deviation of every column in a numeric data frame.
+```{r}
+
+```
+  
+    b. Compute the standard deviation of every numeric column in a mixed data frame. (Hint: you’ll need to use vapply() twice.)
