@@ -32,14 +32,14 @@ f3 <- function(x, y) {          #function to create a vector Y the same length a
 #f3 could be named sameLength or equalLength
 
 
-string <- c('unsun', 'unsky', 'unclouds')
+string <- c('unsun', 'unsky', 'unclouds') #test for function 1
 prefix<- c('un')
 f1(string, prefix)
 
-x <- c(2,3,4)
+x <- c(2,3,4) #test for function 2
 f2(x) 
 
-y<- c(5,6)
+y<- c(5,6) #test for function 3 (y needed to be of a different length to show the purpose of f3)
 f3(x,y)
 ```
 
@@ -48,8 +48,8 @@ f3(x,y)
 **rnorm generates a random value from the normal distribution with the syntax rnorm(n, mean, sd) while MASS::mvrnorm() is mvrnorm from the MASS r package which with syntax MASS::mvnorm(n, mu, Sigma) which calculates its samples from the multivariate normal distribution. To be consistent we should be able to use the same name for the function, however, the problem arises when we consider the multivariate case. While the mean and mu would be the same, sd is the not the same as Sigma in the multivariate case. This is why we need both functions for different applications.**  
 
 3. Use `lapply()` and an anonymous function to find the coefficient of variation (the standard deviation divided by the mean) for all columns in the mtcars dataset. 
-```{r, eval=FALSE}
-library(mtcars) #used mtcars from previous preclass work, nycflights13 returned an error (mixed data set)
+```{r}
+#used mtcars from previous preclass work
 lapply(mtcars, function(x) sd(x)/mean(x)) 
 ```
 
@@ -61,10 +61,11 @@ vapply(mtcars, sd, numeric(1))
 ```
   
     b. Compute the standard deviation of every numeric column in a mixed data frame. (Hint: you’ll need to use vapply() twice.)
-```{r, eval=FALSE}
+```{r}
+#use 'nyc flights' as this is a mixed data set
 # install.packages("nycflights13")
-# library(nycflights13)
-# class(flights)
+library(nycflights13)
+ class(flights)
 
 vapply(flights[vapply(flights, is.numeric, logical(1))], sd, numeric(1))
 
