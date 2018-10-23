@@ -35,7 +35,7 @@ With this project we will simulate a famous probability problem. This will not r
 #step 1: googled gambler's ruin to get more information that might needed to begin the simulation
 #step 2: try to model using a random walk. Googled "random walk" and read the wikipedia entry. 
 #rewatched the datacamp video on Markov Chains and based function on simple unbounded markov chain
-
+#create function to only store a 0 or 1 if we busted or still have money remaining after a number of bets 
 gamblersRuin <- function(nn, upprob=0.5, start.here=1000) {
   output <- rep(NA, nn)
   output[1] <- start.here
@@ -47,7 +47,7 @@ gamblersRuin <- function(nn, upprob=0.5, start.here=1000) {
       break} 
     
   }
-  return(output[length(output)])
+  return(output[length(output)]) #return value of money left after playing after a number of bets
   
 }
 
@@ -56,12 +56,12 @@ bust <- rep(NA, N) #create an empty vector to run 1000 simulations
 for (i in 1:N){
   output = gamblersRuin(nn) #run randomwalk for only 100 hands 
   if (output >0) { 
-  bust[i] = 0
+  bust[i] = 0     #save value of 0 if we did have money after playiing 100 hands
   } else {
-    bust[i] = 1
+    bust[i] = 1 #save value of 1 if we did not have money after playing 100 hands
   }
 }
-return(mean(bust))
+return(mean(bust)) #mean of all busts (1) over all the 100 hands
 }
 
 probBust(100, 5000) #probability for playing 100 hands in 5000 iterations of gamblersRuin
@@ -73,6 +73,36 @@ probBust(500, 5000)
 ```
     
     c. the mean time you go bust, given that you go bust within the first 5000 hands.
+```{r}
+gamblersRuin.bust <- function(nn, upprob=0.5, start.here=1000) {
+  output <- rep(NA, nn)
+  output[1] <- start.here
+  for(iteration in 2:nn) {
+    output[iteration] <- output[iteration-1] + 200*rbinom(1,1,upprob) - 100 #iteration-100 to move up or down by 100
+    
+    if(output[iteration]==0){ #add break and store as 0 when you bust
+      return(0)
+      break} 
+  }
+  return() #return the iteration or trial number you bust
+}
+
+probBust <- function(nn, N){
+bust <- rep(NA, N) #create an empty vector to store all values if the simulation was a bust or if a profit was made
+bets <- rep(NA, N) #create an empty vector to store all values of places where bets were bust
+for (i in 1:N){
+  output = gamblersRuin(nn) #run randomwalk for only 100 hands 
+  if (output >0) { 
+  bust[i] = 0
+  } else {
+    bust[i] = 1
+  }
+}
+return(mean(bust))
+}
+
+```
+  
     d. the mean and variance of your bankroll after 100 hands (including busts).
     e. the mean and variance of your bankroll after 500 hands (including busts).
  
