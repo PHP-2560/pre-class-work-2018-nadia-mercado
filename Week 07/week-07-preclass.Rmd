@@ -89,31 +89,58 @@ gamblersRuin.bust <- function(nn, upprob=0.5, start.here=1000) {
 mean.bust <- function(n = 1000){ #refers to 1000 iterations
   output <- rep(NA, n)
   for(i in 1:n){
-    play <- gamblersRuin.bust(5000)
-    output[i] <- length(play)
+    play <- gamblersRuin.bust(5000) #create vector of play to store each iteration of the game until we bust (for 5000 hands played)
+    output[i] <- length(play) #calculate the length of play to get the position we went bust
   }
-  return(mean(output))
+  return(mean(output)) #calculate the mean of the output to get the average time we went bust
 }
-  
-
-# probBust <- function(nn, N){
-# bust <- rep(NA, N) #create an empty vector to store all values if the simulation was a bust or if a profit was made
-# bets <- rep(NA, N) #create an empty vector to store all values of places where bets were bust
-# for (i in 1:N){
-#   output = gamblersRuin(nn) #run randomwalk for only 100 hands 
-#   if (output >0) { 
-#   bust[i] = 0
-#   } else {
-#     bust[i] = 1
-#   }
-# }
-# return(mean(bust))
-# }
 
 ```
   
     d. the mean and variance of your bankroll after 100 hands (including busts).
+```{r}
+#keep original gamblersRuin to maintain return value of money
+gamblersRuin.last <- function(nn=100, upprob=0.5, start.here=1000) { #nn is the number of hands you play per iteration
+  output <- rep(NA, nn)
+  output[1] <- start.here
+  for(iteration in 2:nn) {
+    output[iteration] <- output[iteration-1] + 200*rbinom(1,1,upprob) - 100 #move up or down by 100
+    
+    if(output[iteration]==0){
+      return(0)
+      break} 
+    
+  }
+  return(output[length(output)]) #return value of money left 
+  
+}
+
+#create function to calculate mean and variance of bankroll
+mean.sd <- function(n = 1000) { #refers to 1000 iterations
+  output <- rep(NA, n)
+  for(i in 1:n){
+    play <- gamblersRuin.last(100) #play gambler's ruin 100 times
+    output[i] <- play
+  }
+  return(c(mean(output), sd(output)))
+}
+mean.sd()
+```
+  
     e. the mean and variance of your bankroll after 500 hands (including busts).
+```{r}
+mean.sd <- function(n = 1000) { #refers to 1000 iterations
+  output <- rep(NA, n)
+  for(i in 1:n){
+    play <- gamblersRuin.last(500) #play gambler's ruin 500 times
+    output[i] <- play
+  }
+  return(c(mean(output), sd(output)))
+}
+
+mean.sd()
+```
+
  
 Note: you *must* stop playing if your player has gone bust. How will you handle this in the `for` loop?
 
