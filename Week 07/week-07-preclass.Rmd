@@ -32,9 +32,6 @@ With this project we will simulate a famous probability problem. This will not r
  1. **Gambler's Ruin**: Suppose you have a bankroll of $1000 and make bets of $100 on a fair game. By simulating the outcome directly for at most 5000 iterations of the game (or hands), estimate:
     a. the probability that you have "busted" (lost all your money) by the time you have placed your one hundredth bet.
 ```{r}
-#step 1: googled gambler's ruin to get more information that might needed to begin the simulation
-#step 2: try to model using a random walk. Googled "random walk" and read the wikipedia entry. 
-#rewatched the datacamp video on Markov Chains and based function on simple unbounded markov chain
 #create function to only store a 0 or 1 if we busted or still have money remaining after a number of bets 
 gamblersRuin <- function(nn, upprob=0.5, start.here=1000) {
   output <- rep(NA, nn)
@@ -94,7 +91,7 @@ mean.bust <- function(n = 1000){ #refers to 1000 iterations
   }
   return(mean(output)) #calculate the mean of the output to get the average time we went bust
 }
-
+mean.bust()
 ```
   
     d. the mean and variance of your bankroll after 100 hands (including busts).
@@ -146,5 +143,24 @@ Note: you *must* stop playing if your player has gone bust. How will you handle 
 
 2. **Markov Chains**. Suppose you have a game where the probability of winning on your first hand is 48%; each time you win, that probability goes up by one percentage point for the next game (to a maximum of 100%, where it must stay), and each time you lose, it goes back down to 48%. Assume you cannot go bust and that the size of your wager is a constant $100.
     a. Is this a fair game? Simulate one hundred thousand sequential hands to determine the size of your return. Then repeat this simulation 99 more times to get a range of values to calculate the expectation.
+    
+```{r, eval=FALSE}
+#function constants are playing 100,000 hands and repeat simulation 99 times
+#we will still go up and down by $100
+#want to play one hand at a time, observe if the output increased by $100. If it did, then increase the probability by 1%. If we lost $100, then reset probability to 48%
+
+markov.chain <- function(x, probStart = 0.48) #x is the number of hands we play
+  outcomes <- rep(NA, x)
+  outcomes[1] <- 100000
+  for(i in 2:x)
+    output[i] <- output[i-1] + 200*rbinom(1, 1, probStart) - 100
+  
+  if(diff(ouput[[i]] > 100) {
+    return(probStart + 0.01)
+  } else {
+    return(probStart == 0.48)
+  }
+```
+    
     b. Repeat this process but change the starting probability to a new value within 2% either way. Get the expected return after 100 repetitions. Keep exploring until you have a return value that is as fair as you can make it. Can you do this automatically?
     c. Repeat again, keeping the initial probability at 48%, but this time change the probability increment to a value different from 1%. Get the expected return after 100 repetitions. Keep changing this value until you have a return value that is as fair as you can make it. 
